@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Your app title -->
+    <title>五人红五</title>
+    <link rel="stylesheet" href="css/framework7/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/my-app.css">
+</head>
+<body>
+    <div class="statusbar-overlay"></div>
+    <div class="panel-overlay"></div>
+    <div class="panel panel-left panel-reveal" id="panel-v">
+        <div class="side-panel-content">
+            <div class="content-block">
+                <h2>{{ username }}</h2>
+            </div>
+            <div class="list-block page-selects">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <a class="page-select" v-on:click="turnToPage('table-list')"><i class="fa fa-home"></i>&nbsp;大厅</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <a class="page-select" v-on:click="turnToPage('game')"><i class="fa fa-gamepad"></i>&nbsp;游戏</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <a class="page-select" v-on:click="turnToPage('players')"><i class="fa fa-users"></i>&nbsp;玩家</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <a class="page-select"  v-on:click="turnToPage('settings')"><i class="fa fa-cog"></i>&nbsp;设置</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <a class="page-select"  v-on:click="turnToPage('about')"><i class="fa fa-info-circle"></i>&nbsp;关于</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <a class="page-select"  v-on:click="logout"><i class="fa fa-sign-out"></i>&nbsp;登出</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="views">
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="pages">
+                <div data-page="welcome" class="page navbar-fixed">
+                    <div class="page-content">
+                        <div class="content-block-title">欢迎</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-screen">
+            <div class="view">
+                <div class="page">
+                    <div class="page-content login-screen-content">
+                        <div class="login-screen-title">登录/注册</div>
+                        <div class="list-block">
+                            <ul>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">用户名</div>
+                                        <div class="item-input">
+                                            <input type="text" id="username-input" placeholder="请输入用户名" v-model="username">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content" id="password-block">
+                                    <div class="item-inner">
+                                        <div class="item-title label">密码</div>
+                                        <div class="item-input">
+                                            <input type="password" id="password-input" placeholder="请输入密码" v-model="password">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content" id="repeat-block" v-if="isReg">
+                                    <div class="item-inner">
+                                        <div class="item-title label">确认密码</div>
+                                        <div class="item-input">
+                                            <input type="password" id="repeat-password-input" placeholder="请再次输入密码" v-model="repeatPassword">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">注册</div>
+                                        <div class="item-input">
+                                            <label class="label-switch">
+                                                <input type="checkbox" v-model="isReg">
+                                                <div class="checkbox"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">
+                            <ul>
+                                <li><a href="#" class="item-link list-button" id="submit-btn" v-on:click="submit">确定</a></li>
+                            </ul>
+                            <div class="list-block-label">
+                                <p>为了您的其他账户安全，请不要使用常用用户名和密码注册</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script type="text/javascript" src="js/framework7/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+    <script type="text/javascript" src="js/side-panel.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/table-list.js"></script>
+</body>
+</html>
