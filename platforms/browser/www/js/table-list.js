@@ -31,7 +31,7 @@ function initTableList() {
                         _this.tables = res;
                         setTimeout(function () {
                             _this.resync();
-                        }, 1000);
+                        }, 15 * 1000);
                     },
                     error: function () {
                         myApp.alert('身份验证失败，请重新登录', '发生错误', function () {
@@ -46,4 +46,8 @@ function initTableList() {
             this.resync();
         }
     });
+}
+
+function removeTableListVM() {
+    tableListVM = null;
 }

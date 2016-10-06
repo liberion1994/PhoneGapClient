@@ -47,3 +47,7 @@ function initTableList() {
         }
     });
 }
+
+function removeTableListVM() {
+    tableListVM = null;
+}

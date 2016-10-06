@@ -17,3 +17,7 @@ setTimeout(function () {
 myApp.onPageAfterAnimation('table-list', function (page) {
     initTableList();
 });
+
+myApp.onPageBeforeRemove('table-list', function(page) {
+    removeTableListVM();
+});
