@@ -1,0 +1,54 @@
+.poker {
+    background: white;
+    position: absolute;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px;
+    box-shadow:1px 1px 2px #aaaaaa;
+    cursor: pointer;
+
+    transition: all .3s ease;
+    -moz-transition: all .3s ease; /* Firefox 4 */
+    -webkit-transition: all .3s ease; /* Safari and Chrome */
+    -o-transition: all .3s ease; /* Opera */
+}
+
+.poker-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 2px;
+    text-align: left;
+}
+
+.poker-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 2px;
+    text-align: left;
+    transform:rotate(180deg);
+    -ms-transform:rotate(180deg); 	/* IE 9 */
+    -moz-transform:rotate(180deg); 	/* Firefox */
+    -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+    -o-transform:rotate(180deg);
+}
+
+.poker-center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+
+.list-enter, .list-leave-active {
+    opacity: 0;
+    transform: translateY(-30px);
+}

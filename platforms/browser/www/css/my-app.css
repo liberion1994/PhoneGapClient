@@ -53,6 +53,8 @@
     background: dodgerblue;
     color: white;
     border-radius: 3px;
+    border: solid 2px white;
+    cursor: pointer;
 }
 
 .seat-occupied {
@@ -60,7 +62,8 @@
     background: white;
     color: dodgerblue;
     border-radius: 3px;
-    border: 2px dodgerblue;
+    border: solid 2px dodgerblue;
+    cursor: pointer;
 }
 
 .seat-1 {
@@ -73,16 +76,16 @@
     padding: 2px 0;
 }
 
-.fadeOutLeft {
-    -webkit-animation: fadeOutLeft 0.5s; /* Safari 4+ */
-    -moz-animation:    fadeOutLeft 0.5s; /* Fx 5+ */
-    -o-animation:      fadeOutLeft 0.5s; /* Opera 12+ */
-    animation:         fadeOutLeft 0.5s; /* IE 10+, Fx 29+ */
+.flipInX {
+    -webkit-animation: flipInX 0.5s; /* Safari 4+ */
+    -moz-animation:    flipInX 0.5s; /* Fx 5+ */
+    -o-animation:      flipInX 0.5s; /* Opera 12+ */
+    animation:         flipInX 0.5s; /* IE 10+, Fx 29+ */
 }
 
-.fadeOutLeft {
-    -webkit-animation: fadeOutLeft 0.5s; /* Safari 4+ */
-    -moz-animation:    fadeOutLeft 0.5s; /* Fx 5+ */
-    -o-animation:      fadeOutLeft 0.5s; /* Opera 12+ */
-    animation:         fadeOutLeft 0.5s; /* IE 10+, Fx 29+ */
+.flipOutX {
+    -webkit-animation: flipOutX 0.5s; /* Safari 4+ */
+    -moz-animation:    flipOutX 0.5s; /* Fx 5+ */
+    -o-animation:      flipOutX 0.5s; /* Opera 12+ */
+    animation:         flipOutX 0.5s; /* IE 10+, Fx 29+ */
 }

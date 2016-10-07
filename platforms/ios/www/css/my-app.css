@@ -1,0 +1,91 @@
+.welcome {
+
+}
+
+.page-select {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.side-panel-content {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.page-selects {
+    margin-bottom: 0;
+}
+
+.panel {
+    background: white;
+}
+
+.item-content {
+    padding-right: 15px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.table-card {
+    margin: 10px 2.5%;
+    float: left;
+    width: 45%;
+}
+
+[v-for] {
+    display: none;
+}
+
+.seat {
+    padding: 5px 0;
+    background: dodgerblue;
+    color: white;
+    border-radius: 3px;
+    border: solid 2px white;
+    cursor: pointer;
+}
+
+.seat-occupied {
+    padding: 5px 0;
+    background: white;
+    color: dodgerblue;
+    border-radius: 3px;
+    border: solid 2px dodgerblue;
+    cursor: pointer;
+}
+
+.seat-1 {
+    width: 50%;
+    margin-left: 25%;
+}
+
+.table-card-line {
+    text-align: center;
+    padding: 2px 0;
+}
+
+.fadeOutLeft {
+    -webkit-animation: fadeOutLeft 0.5s; /* Safari 4+ */
+    -moz-animation:    fadeOutLeft 0.5s; /* Fx 5+ */
+    -o-animation:      fadeOutLeft 0.5s; /* Opera 12+ */
+    animation:         fadeOutLeft 0.5s; /* IE 10+, Fx 29+ */
+}
+
+.fadeOutLeft {
+    -webkit-animation: fadeOutLeft 0.5s; /* Safari 4+ */
+    -moz-animation:    fadeOutLeft 0.5s; /* Fx 5+ */
+    -o-animation:      fadeOutLeft 0.5s; /* Opera 12+ */
+    animation:         fadeOutLeft 0.5s; /* IE 10+, Fx 29+ */
+}

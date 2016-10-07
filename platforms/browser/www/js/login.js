@@ -23,7 +23,7 @@ var loginScreenVM = new Vue({
             var _this = this;
             $$.ajax({
                 type: 'POST',
-                url: 'http://127.0.0.1:3000/users/register',
+                url: baseUrl + 'users/register',
                 data: {username: this.username, password: this.password},
                 dataType: 'json',
                 success: function () {
@@ -31,20 +31,22 @@ var loginScreenVM = new Vue({
                         _this.login();
                     });
                 },
-                error: function (msg) {
-                    myApp.alert(msg.responseText, '注册失败');
+                error: function (xhr) {
+                    myApp.alert(xhr.responseText, '注册失败');
                 }
             });
         },
         login: function () {
             $$.ajax({
                 type: 'POST',
-                url: 'http://127.0.0.1:3000/users/login',
+                url: baseUrl + 'users/login',
                 data: {username: this.username, password: this.password},
                 dataType: 'json',
                 success: function (msg) {
                     localStorage['auth'] = msg.auth;
                     localStorage['username'] = msg.username;
+                    panelVM.username = msg.username;
+                    initSocket();
                     myApp.closeModal('.login-screen');
                     mainView.router.load({url: 'table-list.html', ignoreCache: true});
                 },
@@ -56,3 +58,8 @@ var loginScreenVM = new Vue({
     }
 });
 
+function loginScreen() {
+    pauseTableList();
+    deleteSocket();
+    myApp.loginScreen();
+}

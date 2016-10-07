@@ -5,7 +5,7 @@
 var panelVM = new Vue({
     el: '#panel-v',
     data: {
-        username: '未知用户'
+        username: localStorage['username'] || '未知用户'
     },
     methods: {
         turnToPage: function (name) {
@@ -16,11 +16,14 @@ var panelVM = new Vue({
             myApp.closePanel();
         },
         logout: function () {
+            mainView.router.load({pageName: 'welcome', animatePages: false, ignoreCache: true});
             localStorage.removeItem('auth');
             localStorage.removeItem('username');
             myApp.closePanel();
+            deleteSocket();
+            pauseTableList();
             myApp.alert('已登出，回到登录页面', '登出成功', function () {
-                myApp.loginScreen();
+                loginScreen();
             });
         }
     }

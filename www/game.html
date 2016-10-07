@@ -1,0 +1,36 @@
+<div class="view view-main">
+    <div data-page="game" class="page navbar-fixed" id="table-v">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                </div>
+                <div class="center"><i class="fa fa-gamepad"></i>&nbsp;第<span v-text="id"></span>桌</div>
+            </div>
+        </div>
+        <div class="page-content" id="table-page-content">
+
+            <div id="table-display-area" v-bind:style="tableDisplayAreaSize"></div>
+
+            <div id="operation-area" v-bind:style="operationAreaSize">
+                <div class="buttons-row" style="padding: 0 5px">
+                    <transition mode="out-in"
+                                enter-active-class="animated flipInX"
+                                leave-active-class="animated flipOutX">
+                        <a class="button button-fill" v-if="myStatus == 2" v-on:click="prepare" key="prepare">准备</a>
+                        <a class="button button-fill" v-if="myStatus == 3" v-on:click="unPrepare" key="unPrepare">取消</a>
+                    </transition>
+                    <a class="button button-fill" v-on:click="leave" key="leave">离开</a>
+                    <a class="button button-fill" v-on:click="chat" key="chat">发言</a>
+                </div>
+
+                <transition-group name="list">
+                    <poker-in-hand v-for="(card, index) in cards" :key="card.id" v-on:chosen="chooseCard"
+                                   v-bind:in-hand-poker-prop="inHandPokerProp" v-bind:index="index"
+                                   v-bind:poker-entity="card" v-bind:poker-size="cardSize">
+                    </poker-in-hand>
+                </transition-group>
+            </div>
+        </div>
+    </div>
+</div>

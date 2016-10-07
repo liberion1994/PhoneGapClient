@@ -4,8 +4,6 @@
 
 var tableListVM;
 
-
-
 function initTableList() {
     tableListVM = new Vue({
         el: '#table-list-v',
@@ -14,40 +12,47 @@ function initTableList() {
         },
         methods: {
             enter: function (tid, sid) {
-                console.log(tid + ',' + sid);
+                emitCommand(AgentCommandType.EnterTable, {tid: tid, sid: sid});
             },
             showInfo: function (tid, sid) {
-                
+                //TODO get user statistics
             },
             resync: function () {
+                if (mainView.activePage.name != 'table-list')
+                    return;
                 var _this = this;
                 $$.ajax({
                     type: 'GET',
-                    url: 'http://127.0.0.1:3000/tables/simple_info',
+                    url: baseUrl + 'tables/simple_info',
                     data: {auth: localStorage['auth']},
                     dataType: "json",
                     success: function (res) {
                         console.log('resync');
                         _this.tables = res;
-                        setTimeout(function () {
-                            _this.resync();
-                        }, 15 * 1000);
                     },
-                    error: function () {
-                        myApp.alert('身份验证失败，请重新登录', '发生错误', function () {
-                            myApp.loginScreen();
-                        });
+                    error: function (xhr) {
+                        if (xhr.status == 401) {
+                            myApp.alert('身份验证失败，请重新登录', '发生错误', function () {
+                                loginScreen();
+                            });
+                        }
                     }
                 });
             }
         },
         created: function () {
-            this.username = localStorage['username'];
+            var _this = this;
             this.resync();
+            this.resyncTimer = setInterval(function () {
+                _this.resync();
+            }, 10 * 1000);
         }
     });
 }
 
-function removeTableListVM() {
-    tableListVM = null;
+function pauseTableList() {
+    if (tableListVM) {
+        clearInterval(tableListVM.resyncTimer);
+        tableListVM = null;
+    }
 }
