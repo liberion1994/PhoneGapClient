@@ -33,23 +33,41 @@ function initSocket() {
         .on('fail', function (msg) {
             myApp.alert(msg, '失败了');
         })
+        .on('tick', function (msg) {
+            if (!tableVM) { return }
+            if (tableVM.currentEventId != msg.eid) { return initTable() }
+            if (msg.consequence != 'idle') {
+                //TODO do something
+            }
+        })
+        .on('chat', function (chat) {
+            if (mainView.activePage.name == 'game') {
+                tableVM.onChat(chat.sid, chat.content);
+            }
+        })
         .on('event', function (event) {
+            console.log(event);
             if (event.type == AgentCommandType.EnterTable && event.username == localStorage['username']) {
-                mainView.router.load({url: 'game.html', ignoreCache: true});
+                mainView.router.load({url: 'game.html'});
+            } else if (event.type == AgentCommandType.LeaveTable && event.username == localStorage['username']) {
+                mainView.router.load({url: 'table-list.html'});
+                emitCommand(AgentCommandType.LeftTable, {tid: event.tid});
+                if (event.force) {
+                    myApp.alert('你已被踢出该桌', '超时了');
+                }
             } else {
-                if (mainView.activePage.name != 'game') {
+                if (!tableVM) {
                     //TODO 加一个提醒好一点
                     mainView.router.load({url: 'game.html', ignoreCache: true});
                 } else {
                     //已经在游戏页了，VM可用
                     if (event.eid != tableVM.currentEventId ++) {
-                        //TODO resync here
+                        console.log('sync failed' + event.eid + ',' + tableVM.currentEventId);
+                        return initTable();
                     }
-                    //TODO 处理自己离开时候的leave事件，添加一个left事件（为了处理被踢出去）
                     switch (event.type) {
                         case AgentCommandType.LeaveTable:
                             tableVM.onLeaveTable(event);
-                            emitCommand(AgentCommandType.LeftTable, {tid: event.tid});
                             break;
                         case AgentCommandType.EnterTable:
                             tableVM.onEnterTable(event);

@@ -10,26 +10,110 @@
         </div>
         <div class="page-content" id="table-page-content">
 
-            <div id="table-display-area" v-bind:style="tableDisplayAreaSize"></div>
+            <div id="table-display-area" v-bind:style="tableDisplayAreaSize">
+                <div id="seat-top">
+                    <div id="seat2" class="seat-in-table">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <i class="fa fa-square-o" v-if="seatStatus[2] == 0" key="0"></i>
+                            <i class="fa fa-square" v-if="seatStatus[2] == 2" key="2"></i>
+                            <i class="fa fa-check-square" v-if="seatStatus[2] == 3" key="3"></i>
+                        </transition>
+                        <span v-text="seatUsername[2]"></span>
+                    </div>
+                    <div id="game-info" class="seat-in-table">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <span v-if="!game">尚未开始</span>
+                            <span v-if="game && game.currentTurn.status == 1">报主阶段</span>
+                            <span v-if="game && game.currentTurn.status == 2">叫主阶段</span>
+                            <span v-if="game && game.currentTurn.status == 3">埋底阶段</span>
+                            <span v-if="game && game.currentTurn.status == 4">叫A阶段</span>
+                            <span v-if="game && game.currentTurn.status == 5">出牌阶段</span>
+                        </transition>
+                    </div>
+                    <div id="seat3" class="seat-in-table">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <i class="fa fa-square-o" v-if="seatStatus[3] == 0" key="0"></i>
+                            <i class="fa fa-square" v-if="seatStatus[3] == 2" key="2"></i>
+                            <i class="fa fa-check-square" v-if="seatStatus[3] == 3" key="3"></i>
+                        </transition>
+                        <span v-text="seatUsername[3]"></span>
+                    </div>
+                </div>
+                <div id="pointers-pane">
+                    <div class="pointer"></div>
+                </div>
+                <div id="seat-bottom">
+                    <div id="seat1" class="seat-in-table">
+                        <transition mode="out-in"
+                        enter-active-class="animated flipInX"
+                        leave-active-class="animated flipOutX">
+                            <i class="fa fa-square-o" v-if="seatStatus[1] == 0" key="0"></i>
+                            <i class="fa fa-square" v-if="seatStatus[1] == 2" key="2"></i>
+                            <i class="fa fa-check-square" v-if="seatStatus[1] == 3" key="3"></i>
+                        </transition>
+                        <span v-text="seatUsername[1]"></span>
+                    </div>
+                    <div id="seat0" class="seat-in-table">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <i class="fa fa-square-o" v-if="seatStatus[0] == 0" key="0"></i>
+                            <i class="fa fa-square" v-if="seatStatus[0] == 2" key="2"></i>
+                            <i class="fa fa-check-square" v-if="seatStatus[0] == 3" key="3"></i>
+                        </transition>
+                        <span v-text="seatUsername[0]"></span>
+                    </div>
+                    <div id="seat4" class="seat-in-table">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <i class="fa fa-square-o" v-if="seatStatus[4] == 0" key="0"></i>
+                            <i class="fa fa-square" v-if="seatStatus[4] == 2" key="2"></i>
+                            <i class="fa fa-check-square" v-if="seatStatus[4] == 3" key="3"></i>
+                        </transition>
+                        <span v-text="seatUsername[4]"></span>
+                    </div>
+                </div>
+            </div>
 
             <div id="operation-area" v-bind:style="operationAreaSize">
-                <div class="buttons-row" style="padding: 0 5px">
-                    <transition mode="out-in"
-                                enter-active-class="animated flipInX"
-                                leave-active-class="animated flipOutX">
-                        <a class="button button-fill" v-if="myStatus == 2" v-on:click="prepare" key="prepare">准备</a>
-                        <a class="button button-fill" v-if="myStatus == 3" v-on:click="unPrepare" key="unPrepare">取消</a>
-                    </transition>
-                    <a class="button button-fill" v-on:click="leave" key="leave">离开</a>
-                    <a class="button button-fill" v-on:click="chat" key="chat">发言</a>
+                <div class="row" style="padding: 0 5px">
+                    <div class="col-33">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <a class="button button-fill" v-if="myStatus == AgentStatus.UNPREPARED" v-on:click="prepare" key="prepare">准备</a>
+                            <a class="button button-fill" v-if="myStatus == AgentStatus.PREPARED" v-on:click="unPrepare" key="unPrepare">取消</a>
+                        </transition>
+                    </div>
+                    <div class="col-33">
+                        <transition mode="out-in"
+                                    enter-active-class="animated flipInX"
+                                    leave-active-class="animated flipOutX">
+                            <a class="button button-fill" v-if="myStatus == AgentStatus.UNPREPARED || myStatus == AgentStatus.PREPARED"
+                               v-on:click="leave" key="leave">离开</a>
+                            <a class="button button-fill" v-if="game" :class="{disabled: game.currentTurn.remainedSid[0] != agentSid}"
+                               v-on:click="playCards" key="playCards">出牌</a>
+                        </transition>
+                    </div>
+                    <div class="col-33">
+                        <a class="button button-fill" v-on:click="chat" key="chat">发言</a>
+                    </div>
                 </div>
-
-                <transition-group name="list">
-                    <poker-in-hand v-for="(card, index) in cards" :key="card.id" v-on:chosen="chooseCard"
-                                   v-bind:in-hand-poker-prop="inHandPokerProp" v-bind:index="index"
-                                   v-bind:poker-entity="card" v-bind:poker-size="cardSize">
-                    </poker-in-hand>
-                </transition-group>
+                <div v-if="game && game.cards">
+                    <transition-group name="list">
+                        <poker-in-hand v-for="(card, index) in game.cards" :key="card.id" v-on:chosen="chooseCard"
+                                       v-bind:in-hand-poker-prop="inHandPokerProp" v-bind:index="index"
+                                       v-bind:poker-entity="card" v-bind:poker-size="cardSize">
+                        </poker-in-hand>
+                    </transition-group>
+                </div>
             </div>
         </div>
     </div>

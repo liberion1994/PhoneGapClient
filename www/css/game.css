@@ -17,20 +17,18 @@
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    margin: 0 auto;
+    margin: 0;
     padding: 2px;
-    text-align: left;
+    text-align: center;
 }
 
 .poker-bottom {
     position: absolute;
     bottom: 0;
-    left: 0;
     right: 0;
-    margin: 0 auto;
+    margin: 0;
     padding: 2px;
-    text-align: left;
+    text-align: center;
     transform:rotate(180deg);
     -ms-transform:rotate(180deg); 	/* IE 9 */
     -moz-transform:rotate(180deg); 	/* Firefox */
@@ -47,8 +45,77 @@
     text-align: center;
 }
 
-
 .list-enter, .list-leave-active {
     opacity: 0;
-    transform: translateY(-30px);
+}
+
+#pointers-pane {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -100px;
+    background: lightskyblue;
+    opacity: 0.8;
+    border-radius: 50%;
+
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+.pointer {
+    width: 6px;
+    height: 95px;
+    position: absolute;
+    left: 97px;
+    top: 5px;
+    background: red;
+    box-shadow:1px 1px 2px #aaaaaa;
+}
+
+#seat-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+
+#seat-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+
+#seat4, #seat3 {
+    position: absolute;
+    left: 10px;
+}
+
+#seat1, #seat4 {
+    bottom: 10px;
+}
+
+#seat2, #seat1 {
+    position: absolute;
+    right: 10px;
+}
+
+#seat2, #seat3 {
+    top: 10px;
+}
+
+.seat-in-table {
+    text-align: center;
+    margin: 0;
+    display: inline;
+    color: dodgerblue;
 }

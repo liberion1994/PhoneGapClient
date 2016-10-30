@@ -12,11 +12,11 @@ var panelVM = new Vue({
             if (mainView.activePage.name == name) {
                 return myApp.closePanel();
             }
-            mainView.router.load({url: name + '.html', animatePages: false, ignoreCache: true});
+            mainView.router.load({url: name + '.html', animatePages: false});
             myApp.closePanel();
         },
         logout: function () {
-            mainView.router.load({pageName: 'welcome', animatePages: false, ignoreCache: true});
+            mainView.router.load({pageName: 'welcome', animatePages: false});
             localStorage.removeItem('auth');
             localStorage.removeItem('username');
             myApp.closePanel();

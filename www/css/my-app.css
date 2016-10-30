@@ -1,3 +1,10 @@
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
 .welcome {
 
 }
@@ -44,7 +51,7 @@
     width: 45%;
 }
 
-[v-for] {
+[v-for], [v-if], [v-else] {
     display: none;
 }
 
@@ -77,15 +84,15 @@
 }
 
 .flipInX {
-    -webkit-animation: flipInX 0.5s; /* Safari 4+ */
-    -moz-animation:    flipInX 0.5s; /* Fx 5+ */
-    -o-animation:      flipInX 0.5s; /* Opera 12+ */
-    animation:         flipInX 0.5s; /* IE 10+, Fx 29+ */
+    -webkit-animation: flipInX 0.3s; /* Safari 4+ */
+    -moz-animation:    flipInX 0.3s; /* Fx 5+ */
+    -o-animation:      flipInX 0.3s; /* Opera 12+ */
+    animation:         flipInX 0.3s; /* IE 10+, Fx 29+ */
 }
 
 .flipOutX {
-    -webkit-animation: flipOutX 0.5s; /* Safari 4+ */
-    -moz-animation:    flipOutX 0.5s; /* Fx 5+ */
-    -o-animation:      flipOutX 0.5s; /* Opera 12+ */
-    animation:         flipOutX 0.5s; /* IE 10+, Fx 29+ */
+    -webkit-animation: flipOutX 0.3s; /* Safari 4+ */
+    -moz-animation:    flipOutX 0.3s; /* Fx 5+ */
+    -o-animation:      flipOutX 0.3s; /* Opera 12+ */
+    animation:         flipOutX 0.3s; /* IE 10+, Fx 29+ */
 }

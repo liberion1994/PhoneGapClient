@@ -4,51 +4,13 @@
 var tableVM;
 var windowWidth = $$(window).width();
 
-var cards = [
-    { number: 1, color: 'J', type: 6 },
-    { number: 1, color: 'J', type: 6 },
-    { number: 0, color: 'J', type: 6 },
-    { number: 3, color: '♥', type: 5 },
-    { number: 3, color: '♥', type: 5 },
-    { number: 3, color: '♦', type: 4 },
-    { number: 3, color: '♦', type: 4 },
-    { number: 7, color: '♥', type: 3 },
-    { number: 7, color: '♥', type: 3 },
-    { number: 7, color: '♠', type: 2 },
-    { number: 7, color: '♦', type: 2 },
-    { number: 12, color: '♥', type: 1 },
-    { number: 11, color: '♥', type: 1 },
-    { number: 8, color: '♥', type: 1 },
-    { number: 6, color: '♥', type: 1 },
-    { number: 2, color: '♥', type: 1 },
-    { number: 10, color: '♠', type: 0 },
-    { number: 8, color: '♠', type: 0 },
-    { number: 4, color: '♠', type: 0 },
-    { number: 3, color: '♠', type: 0 },
-    { number: 14, color: '♦', type: 0 },
-    { number: 8, color: '♦', type: 0 },
-    { number: 5, color: '♦', type: 0 },
-    { number: 9, color: '♣', type: 0 },
-    { number: 8, color: '♣', type: 0 },
-    { number: 6, color: '♣', type: 0 },
-    { number: 5, color: '♣', type: 0 },
-    { number: 5, color: '♣', type: 0 },
-    { number: 3, color: '♣', type: 0 },
-    { number: 3, color: '♣', type: 0 },
-    { number: 2, color: '♣', type: 0 }
-];
-//TODO need to add id to each card
-for (var i = 0; i < cards.length; i ++) {
-    cards[i].id = i;
-}
-
 Vue.component('pokerInHand', {
     props: ['pokerEntity', 'pokerSize', 'index', 'inHandPokerProp'],
     template:
         '<div class="poker" v-bind:style="pokerStyle" v-on:click="onChosen">' +
-            '<div class="poker-top" v-html="cardText"></div>' +
+            '<div class="poker-top" v-html="cardText" v-bind:style="topAndBottomStyle"></div>' +
             '<div class="poker-center" v-bind:style="centerFontSize" v-html="pokerEntity.color"></div>' +
-            '<div class="poker-bottom" v-html="cardText"></div>' +
+            '<div class="poker-bottom" v-html="cardText" v-bind:style="topAndBottomStyle"></div>' +
         '</div>',
     data: function () {
         return {chosen: false}
@@ -60,14 +22,24 @@ Vue.component('pokerInHand', {
         }
     },
     computed: {
+        topAndBottomStyle: function () {
+            return {
+                'width': 1.5 * parseFloat(this.pokerSize['font-size']) + 'px'
+            }
+        },
         cardText: function () {
-            var ret = this.pokerEntity.color + '<br>';
-            if (this.pokerEntity.color == 'J') {
-                if (this.pokerEntity.number == 0) {
-                    return '小<br>王'
-                } else {
-                    return '大<br>王';
-                }
+            var ret = '';
+            switch (this.pokerEntity.color) {
+                case '♥': ret = '<i class="iconfont">&#xe655;</i><br>'; break;
+                case '♠': ret = '<i class="iconfont">&#xe681;</i><br>'; break;
+                case '♦': ret = '<i class="iconfont">&#xe67f;</i><br>'; break;
+                case '♣': ret = '<i class="iconfont">&#xe67e;</i><br>'; break;
+                case 'J':
+                    if (this.pokerEntity.number == 0) {
+                        return '小<br>王'
+                    } else {
+                        return '大<br>王';
+                    }
             }
             switch (this.pokerEntity.number) {
                 case 11: ret += 'J'; break;
@@ -80,15 +52,16 @@ Vue.component('pokerInHand', {
         },
         pokerStyle: function () {
             var ret = this.pokerSize;
-            ret.top = this.inHandPokerProp.bottomLineTop - 0.25 * parseFloat(ret.height) * this.chosen;
+            var transformX = 0, transformY = -15 * this.chosen;
+            ret.top = this.inHandPokerProp.startY + 'px';
+            ret.left = this.inHandPokerProp.startX + 'px';
             if (this.index >= this.inHandPokerProp.firstLineSum) {
-                ret.left = this.inHandPokerProp.leftRowLeft +
-                    this.inHandPokerProp.interWidth * (this.index - this.inHandPokerProp.firstLineSum) + 'px';
+                transformX = this.inHandPokerProp.interWidth * (this.index - this.inHandPokerProp.firstLineSum);
+                transformY += 0.5 * parseFloat(ret.height);
             } else {
-                ret.left = this.inHandPokerProp.leftRowLeft + this.inHandPokerProp.interWidth * this.index + 'px';
-                ret.top -= 0.5 * parseFloat(ret.height);
+                transformX = this.inHandPokerProp.interWidth * this.index;
             }
-            ret.top += 'px';
+            ret.transform = 'translate3d(' + transformX + 'px, ' + transformY + 'px, 0)';
             if (this.chosen)
                 ret.border = '2px solid dodgerblue';
             else
@@ -103,13 +76,14 @@ Vue.component('pokerInHand', {
         },
         centerFontSize: function () {
             var fontSize = parseFloat(this.pokerSize.height) / 2;
-            return {'font-size': fontSize + 'px', 'line-height': this.pokerSize.height};
+            return {'font-size': fontSize * 0.75 + 'px', 'line-height': this.pokerSize.height};
         }
     }
 });
 
 function initTable() {
     if (tableInfoBundle) {
+        console.log('init bundled');
         initTableVM(tableInfoBundle);
         tableInfoBundle = null;
     } else {
@@ -119,6 +93,7 @@ function initTable() {
             data: {auth: localStorage['auth']},
             dataType: "json",
             success: function (table) {
+                console.log('init no bundle');
                 initTableVM(table);
             },
             error: function (xhr) {
@@ -142,6 +117,7 @@ function initTable() {
 }
 
 function initTableVM(tableInfoBundle) {
+    console.log(tableInfoBundle);
     if (tableVM) {
         tableVM.agentSid = tableInfoBundle.agentSid;
         tableVM.id = tableInfoBundle.id;
@@ -149,13 +125,12 @@ function initTableVM(tableInfoBundle) {
         tableVM.currentEventId = tableInfoBundle.currentEventId;
         tableVM.masterInGame = tableInfoBundle.masterInGame;
         tableVM.game = tableInfoBundle.game;
-        tableVM.timerCount = tableInfoBundle.timerCount
+        tableVM.timerCount = tableInfoBundle.timerCount;
         return;
     }
     tableVM = new Vue({
         el: '#table-v',
         data: {
-            cards: cards,
             cardSize: {
                 'width': windowWidth / 7 - 4 + 'px',
                 'height': windowWidth / 7 * 1.5 - 4 + 'px',
@@ -185,7 +160,7 @@ function initTableVM(tableInfoBundle) {
         },
         computed: {
             inHandPokerProp: function () {
-                var sum = this.cards.length;
+                var sum = this.game.cards.length;
                 if (sum > 14)
                     if (sum > 28)
                         sum = Math.ceil(sum / 2);
@@ -195,8 +170,8 @@ function initTableVM(tableInfoBundle) {
                     firstLineSum: sum,
                     parWidth: windowWidth - 10,
                     interWidth: (windowWidth - 10 - windowWidth / 7) / (sum - 1) > (windowWidth / 14) ? (windowWidth / 14) : (windowWidth - 10 - windowWidth / 7) / (sum - 1) ,
-                    leftRowLeft: 5,
-                    bottomLineTop: windowWidth / 7 * 1.5 * 0.75 + 40
+                    startX: 5,
+                    startY: windowWidth / 7 * 1.5 * 0.25 + 40
                 }
             },
             myStatus: function () {
@@ -219,17 +194,40 @@ function initTableVM(tableInfoBundle) {
                     default:
                         return '未知阶段';
                 }
+            },
+            seatUsername: function () {
+                var ret = [];
+                for (var ind = 0; ind < 5; ind ++) {
+                    var rInd = (this.agentSid + ind) % 5;
+                    if (!this.seats[rInd])
+                        ret[ind] = '空座位';
+                    else
+                        ret[ind] = this.seats[rInd].username;
+                }
+                return ret;
+            },
+            seatStatus: function () {
+                var ret = [];
+                for (var ind = 0; ind < 5; ind ++) {
+                    var rInd = (this.agentSid + ind) % 5;
+                    if (!this.seats[rInd])
+                        ret[ind] = 0;
+                    else
+                        ret[ind] = this.seats[rInd].status;
+                }
+                return ret;
             }
+
         },
         methods: {
             chooseCard: function (index, chosen) {
-                tableVM.cards[index].chosen = chosen;
+                this.game.cards[index].chosen = chosen;
             },
             playCards: function () {
-                var size = this.cards.length;
+                var size = this.game.cards.length;
                 for (var i = 0; i < size; i ++) {
-                    if (this.cards[i].chosen) {
-                        this.cards.splice(i, 1);
+                    if (this.game.cards[i].chosen) {
+                        this.game.cards.splice(i, 1);
                         i --;
                         size --;
                     }
@@ -246,28 +244,32 @@ function initTableVM(tableInfoBundle) {
             },
             chat: function () {
                 myApp.prompt('说点什么呢', '发言',
-                    function (value) {
+                    function (msg) {
+                        if (msg != '') {
+                            socket.emit('chat', msg);
+                        }
                     },
                     function () {
                     }
                 );
             },
             onLeaveTable: function (event) {
-                if (event.sid == this.agentSid) {
-                    mainView.router.load({url: 'table-list.html', ignoreCache: true});
-                } else {
-                    myApp.alert(event.username + '离开了座位');
-                }
+                //here sid won't equal agentSid
+                if (event.force)
+                    notify('事件', event.username + '被系统踢出了座位');
+                else
+                    notify('事件', event.username + '离开了座位');
+                Vue.set(this.seats, event.sid, null);
             },
             onEnterTable: function (event) {
                 //here sid won't equal agentSid
-                myApp.alert(event.username + '加入了座位');
-                this.seats[event.sid] = {
+                notify('事件', event.username + '加入了座位');
+                Vue.set(this.seats, event.sid, {
                     username: event.username,
                     majorNumber: event.majorNumber,
                     status: AgentStatus.UNPREPARED,
                     tableId: this.id
-                };
+                });
             },
             onPrepare: function (event) {
                 this.seats[event.sid].status = AgentStatus.PREPARED;
@@ -281,10 +283,13 @@ function initTableVM(tableInfoBundle) {
                 if (allPrepared) {
                     $$.ajax({
                         type: 'GET',
-                        url: baseUrl + '/tables/current_table/game/info',
+                        url: baseUrl + 'tables/current_table/game/info',
+                        data: {auth: localStorage['auth']},
+                        dataType: 'json',
                         success: function (res) {
+                            notify('事件', '游戏开始');
                             //TODO set value here
-                            console.log(res);
+                            this.game = res;
                         },
                         error: function (xhr) {
                             switch (xhr.status) {
@@ -305,9 +310,15 @@ function initTableVM(tableInfoBundle) {
             },
             onUnPrepare: function (event) {
                 this.seats[event.sid].status = AgentStatus.UNPREPARED;
+            },
+            onChat: function (sid, content) {
+                notify(this.seats[sid].username, content);
             }
         },
         filters: {
+
+        },
+        created: function () {
 
         }
     });

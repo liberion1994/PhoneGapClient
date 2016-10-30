@@ -1,6 +1,10 @@
 // var baseUrl = 'http://liberion.space/';
 var baseUrl = 'http://127.0.0.1:3000/';
-var myApp = new Framework7();
+var myApp = new Framework7({
+    notificationHold: 2000,
+    notificationCloseIcon: false,
+    cache: false
+});
 var $$ = Framework7.$;
 
 var AgentCommandType = {
@@ -68,6 +72,13 @@ setTimeout(function () {
     else
         loginScreen();
 }, 500);
+
+function notify (title, msg) {
+    myApp.addNotification({
+        title: title,
+        message: msg
+    });
+}
 
 //page init
 myApp.onPageAfterAnimation('table-list', function (page) {
